@@ -1,9 +1,9 @@
-package frc.robot.auto.Tuning;
+package frc.robot.auto.Tuning254;
 
-import frc.robot.auto.Tuning.AutoModeEndedException;
-import frc.robot.auto.Tuning.CollectAccelerationDataAction;
-import frc.robot.auto.Tuning.CollectVelocityDataAction;
-import frc.robot.auto.Tuning.WaitAction;
+import frc.robot.auto.Tuning254.AutoModeEndedException;
+import frc.robot.auto.Tuning254.CollectAccelerationDataAction;
+import frc.robot.auto.Tuning254.CollectVelocityDataAction;
+import frc.robot.auto.Tuning254.WaitAction;
 import com.team254.lib.physics.DriveCharacterization;
 
 import java.util.ArrayList;
