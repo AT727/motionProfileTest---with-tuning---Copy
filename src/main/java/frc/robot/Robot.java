@@ -7,6 +7,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.auto.Tuning254.AutoModeExecutor;
+import frc.robot.auto.Tuning254.AutoModeBase;
+import java.util.Optional;
+import frc.robot.subsystems.Drive254;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.controlboard.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -16,8 +22,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
+  private final Drive254 mDrive = new Drive254();
   private RobotContainer m_robotContainer;
+  private AutoModeExecutor mAutoModeExecutor;
+  private AutoModeSelector mAutoModeSelector = new AutoModeSelector();
+  private final ControlBoard mControlBoard = ControlBoard.getInstance();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -28,6 +37,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    mAutoModeSelector.outputToSmartDashboard();
   }
 
   /**
@@ -48,16 +58,31 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    if (mAutoModeExecutor != null) {
+      mAutoModeExecutor.stop();
+      mAutoModeSelector.reset();
+            mAutoModeSelector.updateModeCreator();
+            mAutoModeExecutor = new AutoModeExecutor();
+  }
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    mAutoModeSelector.updateModeCreator();
+
+    Optional<AutoModeBase> autoMode = mAutoModeSelector.getAutoMode();
+    if (autoMode.isPresent() && autoMode.get() != mAutoModeExecutor.getAutoMode()) {
+        System.out.println("Set auto mode to: " + autoMode.get().getClass().toString());
+        mAutoModeExecutor.setAutoMode(autoMode.get());
+    }
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+    mAutoModeExecutor.start();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -74,6 +99,9 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    if (mAutoModeExecutor != null) {
+      mAutoModeExecutor.stop();
+  }
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -81,7 +109,12 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    double throttle = mControlBoard.getThrottle();
+    double turn = mControlBoard.getTurn();
+    boolean quickTurn = mControlBoard.getQuickTurn();
+    mDrive.setCheesyishDrive(throttle, turn, quickTurn);
+  }
 
   @Override
   public void testInit() {
