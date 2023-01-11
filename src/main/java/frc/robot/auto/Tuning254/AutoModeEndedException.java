@@ -1,4 +1,4 @@
-package frc.robot.auto.Tuning;
+package frc.robot.auto.Tuning254;
 
 /**
  * Exception thrown when an auto mode ends unexpectedly
