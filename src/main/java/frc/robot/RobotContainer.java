@@ -5,10 +5,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.auto.Testing.autoTest;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Drive254;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -18,14 +19,17 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Drive m_exampleSubsystem = new Drive();
+  private final Drive254 drivetrain = new Drive254();
 
-  private final autoTest m_autoCommand = new autoTest(m_exampleSubsystem);
+  private final autoTest m_autoCommand = new autoTest(drivetrain);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    // A split-stick arcade command, with forward/backward controlled by the left hand, and turning controlled by the right.
+
   }
 
   /**
