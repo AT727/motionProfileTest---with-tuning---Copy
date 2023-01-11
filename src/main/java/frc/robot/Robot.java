@@ -24,7 +24,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private final Drive254 mDrive = new Drive254();
   private RobotContainer m_robotContainer;
-  private AutoModeExecutor mAutoModeExecutor;
+  private AutoModeExecutor mAutoModeExecutor = new AutoModeExecutor();
   private AutoModeSelector mAutoModeSelector = new AutoModeSelector();
   private final ControlBoard mControlBoard = ControlBoard.getInstance();
 
@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    mAutoModeSelector.outputToSmartDashboard();
+    mAutoModeSelector.updateModeCreator();
   }
 
   /**
@@ -54,6 +54,15 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    try {
+            mSubsystemManager.outputToSmartDashboard();
+            mAutoModeSelector.outputToSmartDashboard();
+//            mKinematicSelector.outputToSmartDashboard();
+            SmartDashboard.putNumber("Timestamp", Timer.getFPGATimestamp());
+        } catch (Throwable t) {
+            CrashTracker.logThrowableCrash(t);
+            throw t;
+        }
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -81,12 +90,14 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+//     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     mAutoModeExecutor.start();
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
+//     if (m_autonomousCommand != null) {
+//       m_autonomousCommand.schedule();
+//     }
+    mAutoModeSelector.getAutoMode().get().setStartPose();
+    mAutoModeExecutor.start();
   }
 
   /** This function is called periodically during autonomous. */
