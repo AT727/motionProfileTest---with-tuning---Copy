@@ -1,8 +1,8 @@
-package frc.robot.auto.Tuning;
+package frc.robot.auto.Tuning254;
 
-import frc.robot.auto.Tuning.AutoModeEndedException;
-import frc.robot.auto.Tuning.Action;
-import frc.robot.auto.Tuning.NoopAction;
+import frc.robot.auto.Tuning254.AutoModeEndedException;
+import frc.robot.auto.Tuning254.Action;
+import frc.robot.auto.Tuning254.NoopAction;
 import edu.wpi.first.wpilibj.DriverStation;
 
 /**
