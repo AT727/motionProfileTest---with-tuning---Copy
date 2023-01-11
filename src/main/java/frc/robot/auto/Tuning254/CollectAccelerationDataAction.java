@@ -1,7 +1,7 @@
-package frc.robot.auto.Tuning;
+package frc.robot.auto.Tuning254;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Drive254;
 import com.team254.lib.physics.DriveCharacterization;
 import com.team254.lib.util.DriveSignal;
 import com.team254.lib.util.ReflectingCSVWriter;
@@ -15,7 +15,7 @@ public class CollectAccelerationDataAction implements Action {
     private static final double kPower = 0.8;
     private static final double kTotalTime = 2.0; // how long to run the test for
     private static final double kStartTime = 1.0;
-    private static final Drive mDrive = new Drive();
+    private static final Drive254 mDrive = new Drive254();
 
     private final ReflectingCSVWriter<DriveCharacterization.DataPoint> mCSVWriter;
     private final List<DriveCharacterization.DataPoint> mAccelerationData;
