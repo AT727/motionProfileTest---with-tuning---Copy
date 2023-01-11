@@ -1,7 +1,7 @@
-package frc.robot.auto.Tuning;
+package frc.robot.auto.Tuning254;
 
 import frc.robot.Constants;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Drive254;
 import com.team254.lib.physics.DriveCharacterization;
 import com.team254.lib.util.DriveSignal;
 import com.team254.lib.util.ReflectingCSVWriter;
@@ -12,7 +12,7 @@ import java.util.List;
 public class CollectVelocityDataAction implements Action {
     private static final double kMaxPower = 0.25;
     private static final double kRampRate = 0.02;
-    private static final Drive mDrive = new Drive();
+    private static final Drive254 mDrive = new Drive254();
 
     private final ReflectingCSVWriter<DriveCharacterization.DataPoint> mCSVWriter;
     private final List<DriveCharacterization.DataPoint> mVelocityData;
